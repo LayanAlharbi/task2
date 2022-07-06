@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONVERT SOUND TO TEXT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="StoT.CSS">
+    
+</head>
+
+<body>
+  
+    <div class="into">
+        <h2 class="main">To convert your audio into text </h2>
+        <p>click the button below</br><button type="button" class="btn" onclick="runSpeechRecognition()">convert </button> &nbsp; <span id="action"></span></p>
+        <div id="output" class="hide"></div>
+    </div>
+<script>
+        
+        function runSpeechRecognition() {
+           
+            var output = document.getElementById("output");
+            
+            var action = document.getElementById("action");
+            
+            var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+            var recognition = new SpeechRecognition() ;
+        
+            recognition.onstart = function() {
+                action.innerHTML = "<small>listening, please speak...</small>";
+            };
+            
+            recognition.onspeechend = function() {
+                action.innerHTML = "<small>stopped listening, hope you are done...</small>";
+                recognition.stop();
+            }
+          
+            
+            recognition.onresult = function(event) {
+                var transcript = event.results[0][0].transcript;
+                var confidence = event.results[0][0].confidence;
+                output.innerHTML = "<b>Text:</b> " + transcript ;
+                output.classList.remove("hide");
+            };
+          
+             
+             recognition.start();
+        }
+    </script>
+    
+  
+   
+</body>
+</html> 
